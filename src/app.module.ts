@@ -6,6 +6,7 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { ManagersModule } from './modules/managers/managers.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
+import { ResidentsModule } from './modules/residents/residents.module.js';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { AuthModule } from './modules/auth/auth.module.js';
     // Módulos
     ManagersModule,
     AuthModule,
-    // Adicione outros módulos aqui: ResidentsModule, etc
+    ResidentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
