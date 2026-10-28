@@ -7,6 +7,8 @@ import { AppService } from './app.service.js';
 import { ManagersModule } from './modules/managers/managers.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { ResidentsModule } from './modules/residents/residents.module.js';
+import { PackagesModule } from './modules/packages/packages.module.js';
+import { ReportsModule } from './modules/reports/reports.module.js';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { ResidentsModule } from './modules/residents/residents.module.js';
     ManagersModule,
     AuthModule,
     ResidentsModule,
+    PackagesModule,
+    ReportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
