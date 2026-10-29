@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CqrsModule } from '@nestjs/cqrs';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
 import { ManagersModule } from './modules/managers/managers.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { ResidentsModule } from './modules/residents/residents.module.js';
@@ -26,7 +24,5 @@ import { ReportsModule } from './modules/reports/reports.module.js';
     PackagesModule,
     ReportsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
