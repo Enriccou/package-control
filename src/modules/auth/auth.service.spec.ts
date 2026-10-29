@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
@@ -6,7 +7,7 @@ import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let jwtService: jest.Mocked<JwtService>;
+  let jwtService: any;
 
   const mockUser = {
     _id: '507f1f77bcf86cd799439011',
@@ -23,15 +24,15 @@ describe('AuthService', () => {
         {
           provide: JwtService,
           useValue: {
-            sign: jest.fn(),
-            verify: jest.fn(),
+            sign: vi.fn(),
+            verify: vi.fn(),
           },
         },
       ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    jwtService = module.get(JwtService) as jest.Mocked<JwtService>;
+    jwtService = module.get(JwtService);
   });
 
   describe('generateTokens', () => {

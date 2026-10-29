@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ResidentsService } from './residents.service';
 import { ResidentsRepository } from './residents.repository';
@@ -6,7 +7,7 @@ import { UpdateResidentDto } from './dtos/update-resident.dto';
 
 describe('ResidentsService', () => {
   let service: ResidentsService;
-  let repository: jest.Mocked<ResidentsRepository>;
+  let repository: any;
 
   const mockResident = {
     _id: '507f1f77bcf86cd799439012',
@@ -29,13 +30,13 @@ describe('ResidentsService', () => {
     const mockRepositoryProvider = {
       provide: ResidentsRepository,
       useValue: {
-        create: jest.fn(),
-        findAll: jest.fn(),
-        findById: jest.fn(),
-        findByEmail: jest.fn(),
-        findByPropertyId: jest.fn(),
-        update: jest.fn(),
-        delete: jest.fn(),
+        create: vi.fn(),
+        findAll: vi.fn(),
+        findById: vi.fn(),
+        findByEmail: vi.fn(),
+        findByPropertyId: vi.fn(),
+        update: vi.fn(),
+        delete: vi.fn(),
       },
     };
 
@@ -44,7 +45,7 @@ describe('ResidentsService', () => {
     }).compile();
 
     service = module.get<ResidentsService>(ResidentsService);
-    repository = module.get(ResidentsRepository) as jest.Mocked<ResidentsRepository>;
+    repository = module.get(ResidentsRepository);
   });
 
   describe('create', () => {

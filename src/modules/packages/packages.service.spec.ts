@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PackagesService } from './packages.service';
 import { PackagesRepository } from './packages.repository';
@@ -7,7 +8,7 @@ import { PackageStatus } from './schemas/package.schema';
 
 describe('PackagesService', () => {
   let service: PackagesService;
-  let repository: jest.Mocked<PackagesRepository>;
+  let repository: any;
 
   const mockPackage = {
     _id: '507f1f77bcf86cd799439011',
@@ -31,15 +32,15 @@ describe('PackagesService', () => {
     const mockRepositoryProvider = {
       provide: PackagesRepository,
       useValue: {
-        create: jest.fn(),
-        findAll: jest.fn(),
-        findById: jest.fn(),
-        findByResidentId: jest.fn(),
-        findPending: jest.fn(),
-        update: jest.fn(),
-        delete: jest.fn(),
-        incrementNotificationAttempts: jest.fn(),
-        confirmNotification: jest.fn(),
+        create: vi.fn(),
+        findAll: vi.fn(),
+        findById: vi.fn(),
+        findByResidentId: vi.fn(),
+        findPending: vi.fn(),
+        update: vi.fn(),
+        delete: vi.fn(),
+        incrementNotificationAttempts: vi.fn(),
+        confirmNotification: vi.fn(),
       },
     };
 
@@ -48,7 +49,7 @@ describe('PackagesService', () => {
     }).compile();
 
     service = module.get<PackagesService>(PackagesService);
-    repository = module.get(PackagesRepository) as jest.Mocked<PackagesRepository>;
+    repository = module.get(PackagesRepository);
   });
 
   describe('create', () => {

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cobertura completa de testes com **Jest** para todo o projeto. Incluindo:
+Cobertura completa de testes com **Vitest** para todo o projeto. Incluindo:
 - ✅ Testes Unitários (Services, Handlers, Controllers)
 - ✅ Mocks de Dependências
 - ✅ Testes de Casos de Erro
@@ -38,16 +38,18 @@ src/
 ### **Todos os Testes**
 ```bash
 npm test
+# ou (executar uma única vez)
+npm test run
 ```
 
 ### **Testes com Cobertura**
 ```bash
-npm test -- --coverage
+npm run test:cov
 ```
 
 ### **Testes em Watch Mode** (desenvolvimento)
 ```bash
-npm test -- --watch
+npm run test:watch
 ```
 
 ### **Testes de um Módulo Específico**
@@ -65,16 +67,21 @@ npm test packages.service
 npm test create-package.handler
 ```
 
+### **Debug Mode**
+```bash
+npm run test:debug
+```
+
 ---
 
 ## 📊 Relatório de Cobertura
 
-Após rodar `npm test -- --coverage`, abra:
+Após rodar `npm run test:cov`, abra:
 ```
-coverage/lcov-report/index.html
+coverage/index.html
 ```
 
-**Thresholds Configurados:**
+**Thresholds Configurados (vitest.config.ts):**
 - Branches: 70%
 - Functions: 75%
 - Lines: 75%
@@ -159,12 +166,15 @@ coverage/lcov-report/index.html
 
 ---
 
-## 📝 Exemplo de Teste
+## 📝 Exemplo de Teste (Vitest)
 
 ```typescript
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { Test, TestingModule } from '@nestjs/testing';
+
 describe('PackagesService', () => {
   let service: PackagesService;
-  let repository: jest.Mocked<PackagesRepository>;
+  let repository: any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -173,7 +183,7 @@ describe('PackagesService', () => {
         {
           provide: PackagesRepository,
           useValue: {
-            create: jest.fn(),
+            create: vi.fn(),
             // ... outros mocks
           },
         },
@@ -181,7 +191,7 @@ describe('PackagesService', () => {
     }).compile();
 
     service = module.get<PackagesService>(PackagesService);
-    repository = module.get(PackagesRepository) as jest.Mocked<PackagesRepository>;
+    repository = module.get(PackagesRepository);
   });
 
   describe('create', () => {
@@ -297,9 +307,9 @@ npm test -- --coverage --collectCoverageFrom="src/**/*.ts"
 
 ## 📚 Recursos
 
-- [Jest Documentation](https://jestjs.io/)
+- [Vitest Documentation](https://vitest.dev/)
 - [NestJS Testing](https://docs.nestjs.com/fundamentals/testing)
-- [Jest Matchers](https://jestjs.io/docs/using-matchers)
+- [Vitest API](https://vitest.dev/api/)
 
 ---
 

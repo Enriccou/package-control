@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PackagesController } from './packages.controller';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -7,9 +8,9 @@ import { PackageStatus } from './schemas/package.schema';
 
 describe('PackagesController', () => {
   let controller: PackagesController;
-  let commandBus: jest.Mocked<CommandBus>;
-  let queryBus: jest.Mocked<QueryBus>;
-  let service: jest.Mocked<PackagesService>;
+  let commandBus: any;
+  let queryBus: any;
+  let service: any;
 
   const mockPackage = {
     _id: '507f1f77bcf86cd799439011',
@@ -29,28 +30,28 @@ describe('PackagesController', () => {
         {
           provide: CommandBus,
           useValue: {
-            execute: jest.fn(),
+            execute: vi.fn(),
           },
         },
         {
           provide: QueryBus,
           useValue: {
-            execute: jest.fn(),
+            execute: vi.fn(),
           },
         },
         {
           provide: PackagesService,
           useValue: {
-            getWhatsAppLink: jest.fn(),
+            getWhatsAppLink: vi.fn(),
           },
         },
       ],
     }).compile();
 
     controller = module.get<PackagesController>(PackagesController);
-    commandBus = module.get(CommandBus) as jest.Mocked<CommandBus>;
-    queryBus = module.get(QueryBus) as jest.Mocked<QueryBus>;
-    service = module.get(PackagesService) as jest.Mocked<PackagesService>;
+    commandBus = module.get(CommandBus);
+    queryBus = module.get(QueryBus);
+    service = module.get(PackagesService);
   });
 
   describe('create', () => {

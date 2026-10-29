@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { PickupPackageHandler } from './pickup-package.handler';
@@ -7,7 +8,7 @@ import { PackageStatus } from '../../schemas/package.schema';
 
 describe('PickupPackageHandler', () => {
   let handler: PickupPackageHandler;
-  let service: jest.Mocked<PackagesService>;
+  let service: any;
 
   const mockPackage = {
     _id: '507f1f77bcf86cd799439011',
@@ -21,15 +22,15 @@ describe('PickupPackageHandler', () => {
         {
           provide: PackagesService,
           useValue: {
-            findById: jest.fn(),
-            markAsPickedUp: jest.fn(),
+            findById: vi.fn(),
+            markAsPickedUp: vi.fn(),
           },
         },
       ],
     }).compile();
 
     handler = module.get<PickupPackageHandler>(PickupPackageHandler);
-    service = module.get(PackagesService) as jest.Mocked<PackagesService>;
+    service = module.get(PackagesService);
   });
 
   it('should mark package as picked up', async () => {

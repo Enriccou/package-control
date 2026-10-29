@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ManagersService } from './managers.service';
 import { ManagersRepository } from './managers.repository';
@@ -6,7 +7,7 @@ import { UpdateManagerDto } from './dtos/update-manager.dto';
 
 describe('ManagersService', () => {
   let service: ManagersService;
-  let repository: jest.Mocked<ManagersRepository>;
+  let repository: any;
 
   const mockManager = {
     _id: '507f1f77bcf86cd799439011',
@@ -24,12 +25,12 @@ describe('ManagersService', () => {
     const mockRepositoryProvider = {
       provide: ManagersRepository,
       useValue: {
-        create: jest.fn(),
-        findAll: jest.fn(),
-        findById: jest.fn(),
-        findByEmail: jest.fn(),
-        update: jest.fn(),
-        delete: jest.fn(),
+        create: vi.fn(),
+        findAll: vi.fn(),
+        findById: vi.fn(),
+        findByEmail: vi.fn(),
+        update: vi.fn(),
+        delete: vi.fn(),
       },
     };
 
@@ -38,7 +39,7 @@ describe('ManagersService', () => {
     }).compile();
 
     service = module.get<ManagersService>(ManagersService);
-    repository = module.get(ManagersRepository) as jest.Mocked<ManagersRepository>;
+    repository = module.get(ManagersRepository);
   });
 
   describe('create', () => {

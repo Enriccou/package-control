@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreatePackageHandler } from './create-package.handler';
 import { PackagesService } from '../../packages.service';
@@ -7,7 +8,7 @@ import { PackageStatus } from '../../schemas/package.schema';
 
 describe('CreatePackageHandler', () => {
   let handler: CreatePackageHandler;
-  let service: jest.Mocked<PackagesService>;
+  let service: any;
 
   const mockPackage = {
     _id: '507f1f77bcf86cd799439011',
@@ -30,14 +31,14 @@ describe('CreatePackageHandler', () => {
         {
           provide: PackagesService,
           useValue: {
-            create: jest.fn(),
+            create: vi.fn(),
           },
         },
       ],
     }).compile();
 
     handler = module.get<CreatePackageHandler>(CreatePackageHandler);
-    service = module.get(PackagesService) as jest.Mocked<PackagesService>;
+    service = module.get(PackagesService);
   });
 
   it('should create a package', async () => {
