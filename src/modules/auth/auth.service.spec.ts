@@ -62,6 +62,29 @@ describe('AuthService', () => {
         }),
       ).rejects.toThrow(UnauthorizedException);
     });
+
+    it('should throw when password is invalid', async () => {
+      const mockManager = {
+        _id: '123',
+        email: 'test@test.com',
+        password: '$2a$10$wronghash',
+        name: 'Test User',
+        role: 'ADMIN',
+      };
+
+      managersService.findByEmail.mockResolvedValue(mockManager);
+
+      // Mock bcrypt to return false for invalid password
+      const bcryptModule = await import('bcryptjs');
+      vi.spyOn(bcryptModule.default, 'compare').mockResolvedValueOnce(false as any);
+
+      await expect(
+        authService.login({
+          email: 'test@test.com',
+          password: 'wrongpassword',
+        }),
+      ).rejects.toThrow(UnauthorizedException);
+    });
   });
 
   describe('refreshToken', () => {
@@ -93,6 +116,14 @@ describe('AuthService', () => {
 
     it('should throw when no token provided', async () => {
       await expect(authService.refreshToken('')).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('should throw when manager not found on refresh', async () => {
+      managersService.findById.mockResolvedValue(null);
+
+      await expect(authService.refreshToken('valid_token')).rejects.toThrow(
         UnauthorizedException,
       );
     });

@@ -165,4 +165,67 @@ describe('ResidentsService', () => {
       expect(result).toBeNull();
     });
   });
+
+  describe('edge cases', () => {
+    it('should handle findAll with different pagination values', async () => {
+      const mockResidents = [{ _id: '1', name: 'Test' }];
+      mockRepository.findAll.mockResolvedValue(mockResidents);
+
+      await residentsService.findAll(10, 5);
+      expect(mockRepository.findAll).toHaveBeenCalledWith(10, 5);
+
+      await residentsService.findAll(0, 1);
+      expect(mockRepository.findAll).toHaveBeenCalledWith(0, 1);
+    });
+
+    it('should handle update with multiple fields', async () => {
+      const updateDto = { name: 'Updated', email: 'updated@example.com', phone: '987654321' };
+      const mockResident = { _id: '123', ...updateDto };
+
+      mockRepository.update.mockResolvedValue(mockResident);
+
+      const result = await residentsService.update('123', updateDto);
+
+      expect(result.name).toBe('Updated');
+      expect(mockRepository.update).toHaveBeenCalledWith('123', updateDto);
+    });
+
+    it('should find resident by property id with multiple results', async () => {
+      const mockResidents = [
+        { _id: '1', propertyId: 'prop-123', name: 'John' },
+        { _id: '2', propertyId: 'prop-123', name: 'Jane' },
+        { _id: '3', propertyId: 'prop-123', name: 'Bob' },
+      ];
+
+      mockRepository.findByPropertyId.mockResolvedValue(mockResidents);
+
+      const result = await residentsService.findByPropertyId('prop-123');
+
+      expect(result).toHaveLength(3);
+    });
+
+    it('should return empty array for findAll when no residents', async () => {
+      mockRepository.findAll.mockResolvedValue([]);
+
+      const result = await residentsService.findAll(0, 10);
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return null for findByEmail when not found', async () => {
+      mockRepository.findByEmail.mockResolvedValue(null);
+
+      const result = await residentsService.findByEmail('notfound@example.com');
+
+      expect(result).toBeNull();
+    });
+
+    it('should return empty array for findByPropertyId when none found', async () => {
+      mockRepository.findByPropertyId.mockResolvedValue([]);
+
+      const result = await residentsService.findByPropertyId('invalid-prop');
+
+      expect(result).toEqual([]);
+    });
+  });
 });

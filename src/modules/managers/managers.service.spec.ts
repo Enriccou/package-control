@@ -167,6 +167,74 @@ describe('ManagersService', () => {
 
       expect(result.name).toBe('Jane');
     });
+
+    it('should throw when trying to update with existing email', async () => {
+      const mockManager = {
+        _id: '123',
+        name: 'John',
+        email: 'john@example.com',
+      };
+
+      mockRepository.findById.mockResolvedValue(mockManager);
+      mockRepository.checkEmailExists.mockResolvedValue(true);
+
+      await expect(
+        managersService.update('123', { email: 'other@example.com' }),
+      ).rejects.toThrow(BadRequestException);
+    });
+
+    it('should allow updating same email', async () => {
+      const mockManager = {
+        _id: '123',
+        name: 'John',
+        email: 'john@example.com',
+      };
+
+      const updatedManager = {
+        _id: '123',
+        name: 'John Updated',
+        email: 'john@example.com',
+        toObject: () => ({
+          _id: '123',
+          name: 'John Updated',
+          email: 'john@example.com',
+        }),
+      };
+
+      mockRepository.findById.mockResolvedValue(mockManager);
+      mockRepository.checkEmailExists.mockResolvedValue(true);
+      mockRepository.update.mockResolvedValue(updatedManager);
+
+      const result = await managersService.update('123', {
+        name: 'John Updated',
+        email: 'john@example.com',
+      });
+
+      expect(result.email).toBe('john@example.com');
+    });
+
+    it('should throw when manager not found on update', async () => {
+      mockRepository.findById.mockResolvedValue(null);
+
+      await expect(
+        managersService.update('invalid', { name: 'Test' }),
+      ).rejects.toThrow(BadRequestException);
+    });
+
+    it('should throw when update fails', async () => {
+      const mockManager = {
+        _id: '123',
+        email: 'john@example.com',
+      };
+
+      mockRepository.findById.mockResolvedValue(mockManager);
+      mockRepository.checkEmailExists.mockResolvedValue(false);
+      mockRepository.update.mockResolvedValue(null);
+
+      await expect(
+        managersService.update('123', { name: 'New Name' }),
+      ).rejects.toThrow(BadRequestException);
+    });
   });
 
   describe('softDelete', () => {
@@ -201,6 +269,38 @@ describe('ManagersService', () => {
       );
 
       expect(typeof result).toBe('boolean');
+    });
+  });
+
+  describe('update with password', () => {
+    it('should update manager with new password', async () => {
+      const mockManager = {
+        _id: '123',
+        name: 'John',
+        email: 'john@example.com',
+      };
+
+      const updatedManager = {
+        _id: '123',
+        name: 'John',
+        email: 'john@example.com',
+        password: 'hashed_new_password',
+        toObject: () => ({
+          _id: '123',
+          name: 'John',
+          email: 'john@example.com',
+        }),
+      };
+
+      mockRepository.findById.mockResolvedValue(mockManager);
+      mockRepository.checkEmailExists.mockResolvedValue(false);
+      mockRepository.update.mockResolvedValue(updatedManager);
+
+      const result = await managersService.update('123', {
+        password: 'newpassword',
+      });
+
+      expect(result).toBeDefined();
     });
   });
 });
