@@ -1,2 +1,2 @@
-export * from './commands';
-export * from './queries';
+export * from './commands/index.js';
+export * from './queries/index.js';

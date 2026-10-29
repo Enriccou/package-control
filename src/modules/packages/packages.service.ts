@@ -56,7 +56,7 @@ export class PackagesService {
 
   async getWhatsAppLink(id: string, residentPhone: string): Promise<string> {
     const pkg = await this.findById(id);
-    if (!pkg) return null;
+    if (!pkg) throw new Error('Package not found');
 
     const message = `Olá! Sua encomenda (${pkg.carrier} - ${pkg.trackingNumber || 'sem rastreamento'}) chegou no ${new Date(pkg.receivedAt).toLocaleDateString('pt-BR')}. Por favor, retire na portaria.`;
     const encodedMessage = encodeURIComponent(message);

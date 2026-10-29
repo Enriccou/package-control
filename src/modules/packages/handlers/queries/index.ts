@@ -1,3 +1,3 @@
-export * from './get-package.handler';
-export * from './list-packages.handler';
-export * from './list-resident-packages.handler';
+export * from './get-package.handler.js';
+export * from './list-packages.handler.js';
+export * from './list-resident-packages.handler.js';
