@@ -20,7 +20,6 @@ import { ReportsModule } from './modules/reports/reports.module.js';
       process.env.MONGODB_URI || 'mongodb://localhost:27017/package-system',
     ),
     CqrsModule,
-    // Módulos
     ManagersModule,
     AuthModule,
     ResidentsModule,
