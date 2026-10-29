@@ -80,4 +80,18 @@ export class PackagesRepository {
       )
       .exec();
   }
+
+  async confirmNotification(id: string): Promise<Package | null> {
+    return this.packageModel
+      .findByIdAndUpdate(
+        id,
+        {
+          notificationConfirmedAt: new Date(),
+          lastNotificationAt: new Date(),
+          $inc: { notificationAttempts: 1 },
+        },
+        { new: true },
+      )
+      .exec();
+  }
 }

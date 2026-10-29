@@ -40,6 +40,9 @@ export class Package {
   @Prop({ default: null, sparse: true })
   lastNotificationAt?: Date;
 
+  @Prop({ default: null, sparse: true })
+  notificationConfirmedAt?: Date;
+
   @Prop({ default: false })
   notificationFailed: boolean;
 

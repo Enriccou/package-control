@@ -18,6 +18,7 @@ import {
   UpdatePackageCommand,
   PickupPackageCommand,
   DeletePackageCommand,
+  ConfirmNotificationCommand,
 } from './commands/index.js';
 import {
   GetPackageQuery,
@@ -77,6 +78,11 @@ export class PackagesController {
   @Put(':id/pickup')
   async markAsPickedUp(@Param('id') id: string) {
     return this.commandBus.execute(new PickupPackageCommand(id));
+  }
+
+  @Put(':id/confirm-notification')
+  async confirmNotification(@Param('id') id: string) {
+    return this.commandBus.execute(new ConfirmNotificationCommand(id));
   }
 
   @Get(':id/whatsapp-link')

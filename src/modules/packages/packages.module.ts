@@ -10,6 +10,7 @@ import {
   UpdatePackageHandler,
   PickupPackageHandler,
   DeletePackageHandler,
+  ConfirmNotificationHandler,
 } from './handlers/commands/index.js';
 import {
   GetPackageHandler,
@@ -22,6 +23,7 @@ const CommandHandlers = [
   UpdatePackageHandler,
   PickupPackageHandler,
   DeletePackageHandler,
+  ConfirmNotificationHandler,
 ];
 
 const QueryHandlers = [

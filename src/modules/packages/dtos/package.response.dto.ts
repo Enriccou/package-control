@@ -11,6 +11,7 @@ export class PackageResponseDto {
   pickupAt?: Date;
   notificationAttempts: number;
   lastNotificationAt?: Date;
+  notificationConfirmedAt?: Date;
   notificationFailed: boolean;
   createdAt: Date;
   updatedAt: Date;

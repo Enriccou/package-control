@@ -50,6 +50,10 @@ export class PackagesService {
     await this.packagesRepository.incrementNotificationAttempts(id);
   }
 
+  async confirmNotification(id: string): Promise<Package | null> {
+    return this.packagesRepository.confirmNotification(id);
+  }
+
   async getWhatsAppLink(id: string, residentPhone: string): Promise<string> {
     const pkg = await this.findById(id);
     if (!pkg) return null;
