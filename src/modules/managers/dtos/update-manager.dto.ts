@@ -15,7 +15,9 @@ export class UpdateManagerDto {
   @IsOptional()
   @IsString()
   @MinLength(8)
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/, {
+    message: 'Senha deve conter maiúscula, minúscula, número e caractere especial (!@#$%^&*)',
+  })
   password?: string;
 
   @IsOptional()
