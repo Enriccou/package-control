@@ -1,0 +1,1 @@
+{"version":3,"file":"list-residents.query.js","sourceRoot":"","sources":["../../../../../src/modules/residents/queries/impl/list-residents.query.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,kBAAkB;IAEX;IACA;IAFlB,YACkB,OAAe,CAAC,EAChB,QAAgB,EAAE;QADlB,SAAI,GAAJ,IAAI,CAAY;QAChB,UAAK,GAAL,KAAK,CAAa;IACjC,CAAC;CACL"}
